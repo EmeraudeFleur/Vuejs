@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>重复请求问题</title>
+    <style>
+      #result {
+        width: 200px;
+        height: 100px;
+        border: solid 1px #192;
+      }
+    </style>
+  </head>
+  <body>
+    <button>发送请求</button>
+
+    <script>
+      //目的是连续请求时，把上一个请求取消掉，给服务器减少压力
+      const btn = document.querySelector("button");
+      let x = null;
+      //标识变量
+      let isSending = false;
+
+      btn.onclick = function () {
+        //判断标识变量
+        if (isSending) x.abort(); //如果有新点击/请求，上一个创建的x还在发送中,则取消掉
+
+        x = new XMLHttpRequest();
+        isSending = true;
+        x.open("GET", "http://localhost:3000/delay");
+        x.send();
+        x.onreadystatechange = function () {
+          //处理服务端返回结果
+          if (xhr.readyState === 4) {
+            isSending = false; //请求已回复，即可以修改isSending值为否
+          }
+        };
+      };
+    </script>
+  </body>
+</html>

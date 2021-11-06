@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>fetch 发送 AJAX 请求</title>
+  </head>
+  <body>
+    <div>
+      <button>click to send request</button>
+    </div>
+
+    <script>
+      // The fetch() method takes one mandatory argument, the path to the resource you want to fetch. It returns a Promise that resolves to the Response to that request
+      //https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch
+      const btn = document.querySelector("button");
+      btn.onclick = function () {
+        fetch("http://localhost:3000/axios-server", {
+          //请求方法
+          //   method: "POST", // or 'PUT'
+          //请求头
+          headers: {
+            "Content-Type": "application/json",
+          },
+          //请求体
+          //   body: "username=admin&password=admin",
+        })
+          .then((response) => response.json()) //如果是字符串，用text()
+          .then((response) => {
+            console.log(response);
+          })
+          .catch((error) => {
+            console.error("Error:", error);
+          });
+      };
+    </script>
+  </body>
+</html>
